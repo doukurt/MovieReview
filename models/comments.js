@@ -9,14 +9,11 @@ const CommentSchema = new mongoose.Schema({
   movie: {
     ref: "Movie",
     type: mongoose.SchemaTypes.ObjectId,
-    
   },
   user: {
     ref: "User",
     type: mongoose.SchemaTypes.ObjectId,
-    
   },
 });
-
 const CommentModel = mongoose.model("Comments", CommentSchema);
 module.exports = CommentModel;
