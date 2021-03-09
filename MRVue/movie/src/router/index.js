@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import SignUpPage from '../pages/SignUpPage'
 import LoginPage from '../pages/LoginPage'
 import HomePage from '../pages/HomePage'
+import Movie from '../pages/Movie'
+import ProfilePage from '../pages/ProfilePage'
+
 Vue.use(Router)
 
 export default new Router({
@@ -22,7 +25,17 @@ export default new Router({
    name: 'Login',
    component: LoginPage
  },
-     
+ {
+   path:'/movie/:id',
+   name:'Movie',
+   component:Movie
+},
+{
+  path:'/profile',
+  name:ProfilePage,
+  component:ProfilePage
+}
+    
   ]
  ,
   mode:'history'

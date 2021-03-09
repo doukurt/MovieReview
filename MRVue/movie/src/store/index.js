@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios'
-Vue.use(Vuex);
+import {accounts} from './accounts'
+import {movies} from './movies'
+
+Vue.use(Vuex)
 export const store=new Vuex.Store({
-users,
-accounts,
+modules:{
 movies,
-books
-
-
+accounts,
+}
 })

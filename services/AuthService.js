@@ -39,7 +39,7 @@ exports.login=async(req,res,next)=>{
   try {
   const {username,password}=req.body;
   if(!username || !password){
-    return res.stat(404).send({
+    return res.status(404).send({
       message:'Email and password must not be null'
     })
   }
@@ -53,7 +53,7 @@ exports.login=async(req,res,next)=>{
   });
   await UserModel.findByIdAndUpdate(user._id, { accessToken })
   res.status(200).json({
-    data: { username: user.username},
+    data: { username: user.username,  displayName:user.displayName},
     accessToken
   })
 } 

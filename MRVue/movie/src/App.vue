@@ -1,23 +1,18 @@
 <template>
   <div id="app">
+    <TopBar />
 <router-view/>
 </div>
 </template>
 
 <script>
 import TopBar from './components/TopBar'
-import MovieCard from './components/MovieCard';
+
 export default {
   name: 'App',
-  components:{TopBar,MovieCard},
-  data(){
-    return{
-      movies:[]
-    }
-  },
-  created(){
+  components:{TopBar},
+ 
 
-  }
 
 }
 </script>
