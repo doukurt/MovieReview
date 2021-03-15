@@ -63,10 +63,11 @@
                       </a>
                     </li>
                   </ul>
-                  <router-link to="/">
+                  <router-link v-if="this.ownerLoggedIn"  to="/">
                   <button
                     type="button"
                     class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"
+
                     @click="deleteUser"
                   >
                     Delete Profile
@@ -114,18 +115,8 @@ import Share from './icons/Share'
 import axios from "axios";
 export default {
   name: "ProfileDetail",
-  data() {
-    return {
-      remoteUrl:"",
-      image:""
-    };
-  },
-
-  props: ["user"],
+  props: ["user","ownerLoggedIn"],
   components:{DefaultImage,Share},
-  computed:{
-     
-  },
   methods: {
   handleImage(e) {
       const selectedImage = e.target.files[0]; // get first file

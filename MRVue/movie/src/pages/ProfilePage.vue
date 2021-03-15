@@ -3,9 +3,9 @@
     <div class="profil" >
     
 <div class="row" >
-<div class="col-4 border-right"><ProfileDetails :user="user" /> </div>
-<div class="col-4 border-right">  <CommentView  v-for="comment in user.comments" :key="comment.id" :comment=comment :user=user /></div>
-<div id="favorite" class="col-4 border-right"><Favorite v-for="movie in user.favorite" :key="movie.id" :movie=movie  /></div>
+<div class="col-4 border-right"><ProfileDetails :ownerLoggedIn=ownerLoggedIn :user="user" /> </div>
+<div class="col-4 border-right">  <CommentView :ownerLoggedIn=ownerLoggedIn v-for="comment in user.comments" :key="comment.id" :comment=comment :user=user /></div>
+<div id="favorite" class="col-4 border-right"><Favorite :ownerLoggedIn=ownerLoggedIn v-for="movie in user.favorite" :key="movie.id" :movie=movie  /></div>
 </div>
 </div>
 
@@ -21,6 +21,7 @@ export default {
     data(){
         return{
             isAuthor:false,
+            ownerLoggedIn:false,
         }
     },
     components:{
@@ -30,15 +31,21 @@ export default {
     computed:{
         user(){
             return this.$store.state.users.user
-        }
+        },currentUser() {
+      return JSON.parse(this.$store.state.accounts.initialState.user);
+    },
       
     }
     
     ,created(){
         this.$store.dispatch('getUser',this.$route.params.username)
+        this.currentUser.data.username === this.$route.params.username
+      ? (this.ownerLoggedIn = true)
+      : (this.ownerLoggedIn = false);
     
     }
 }
+
 </script>
 <style scoped>
 

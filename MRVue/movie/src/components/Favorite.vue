@@ -5,7 +5,7 @@
    <div class="card-body" >
   <img :src="'https://image.tmdb.org/t/p/w92'+movie.poster_path" :alt="movie.poster_path">
         <span class="card-title">{{movie.title}}</span>
-        <div><button class="del" @click="deleteFav"><Delete /></button></div>
+        <div v-if="this.ownerLoggedIn"><button class="del" @click="deleteFav"><Delete /></button></div>
       
   </div>
    </div>
@@ -17,7 +17,7 @@ import axios from 'axios'
 import Delete from './icons/Delete'
 export default {
 props:[
-  'movie'
+  'movie','ownerLoggedIn'
 ],
 components:{Delete},
 methods:{
