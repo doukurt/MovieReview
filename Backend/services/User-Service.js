@@ -16,6 +16,9 @@ exports.getUser = async (req, res) => {
     console.log(e);
   }
 };
+exports.deleteUser = async (req,res)=>{
+  await UserModel.deleteOne({username:req.params.username})
+}
 
 exports.uploadImage = (req, res) => {
   const { image } = req.body;
@@ -53,57 +56,20 @@ exports.addFavorite = async (req, res) => {
   });
 };
 
-exports.removeFavorite = async (req, res) => {
-  const user = await UserModel.findOne({ username: req.params.username })
-  let count = true;
-  let spliceOfindex;
-  for (var i = 0; i < user.favorite.length; i++) {
-    if (user.favorite[i]._id.equals(req.body.movie)) {
-      spliceOfindex = i;
-      count = false;
-    }
+exports.removeFavorite=async(req,res)=>{
+  const user =await UserModel.findOne({username:req.params.username})
+  console.log(req.body.movie)
+  if(user.favorite.includes(req.body.movie))
+  {  const findMovieIndex= (element) => element == req.body.movie;
+     const spliceOfindex=user.favorite.findIndex(findMovieIndex)
+     user.favorite.splice(spliceOfindex,1)
   }
-  if (!count) {
-    user.favorite.splice(spliceOfindex, 1)
-  }
-  await user.save();
-  res.json({
-    success: true
-  })
+ 
+ await user.save();
+ res.json({ 
+   success:true
+ })
 }
 exports.removeComment = async (req, res) => {
-  const { movieId, comment } = req.body;
-  const user = await UserModel.findOne({ username: req.params.username })
-  const movie = await MovieModel.findOne({ id: movieId })
-  let count = true;
-  let spliceOfindex;
-  for (var i = 0; i < user.comments.length; i++) {
-    if (user.comments[i]._id.equals(comment)) {
-      spliceOfindex = i;
-      count = false;
-    }
-  }
-  if (!count) {
-    user.comments.splice(spliceOfindex, 1)
-  }
-  await user.save();
-  res.json({
-    success: true
-  })
-  //deleting from movie side
-  let countForMovie = true;
-  let movieSpliceOfindex;
-  for (var i = 0; i < movie.comments.length; i++) {
-    if (movie.comments[i]._id.equals(comment)) {
-      movieSpliceOfindex = i;
-      countForMovie = false;
-    }
-  }
-  if (!countForMovie) {
-    movie.comments.splice(movieSpliceOfindex, 1)
-  }
-  await movie.save();
-  res.json({
-    success: true
-  })
+  await CommentModel.deleteOne({_id:req.body.commentId})  
 }

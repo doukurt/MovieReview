@@ -63,12 +63,14 @@
                       </a>
                     </li>
                   </ul>
+                  <router-link to="/">
                   <button
                     type="button"
                     class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"
+                    @click="deleteUser"
                   >
-                    Edit Profile
-                  </button>
+                    Delete Profile
+                  </button></router-link>
                   <button
                     type="button"
                     class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"
@@ -121,6 +123,9 @@ export default {
 
   props: ["user"],
   components:{DefaultImage,Share},
+  computed:{
+     
+  },
   methods: {
   handleImage(e) {
       const selectedImage = e.target.files[0]; // get first file
@@ -144,8 +149,15 @@ export default {
         .catch((err) => {
           return new Error(err.message);
         })
+    },deleteUser(){
+      axios.delete(`http://localhost:3000/user/delete/${this.$route.params.username}`)
+       
+      return this.$store.dispatch('logout')
+
+    },goBack() {
+      this.$router.push({ name: 'HomePage' });
     }
-  },
+  }
 }
 </script>
 <style scoped>

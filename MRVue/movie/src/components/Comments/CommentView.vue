@@ -31,7 +31,7 @@ export default {
   methods:{
   deleteComment(){
     return axios.delete(`http://localhost:3000/user/comment/${this.$route.params.username}`,{data: {
-    comment:this.comment._id,
+    commentId:this.comment._id,
     movieId:this.comment.movie
   }
     })

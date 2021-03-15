@@ -17,25 +17,12 @@ export default {
     props:['currentUser'],
     components:{
         LogOut,DefaultImage
-    },computed: {
-    loggedIn() {
-      return this.$store.state.accounts.initialState.status.loggedIn;
-    }
-  },
-// created(){
-//      if (!this.loggedIn) {
-//       this.$route.push("/login")
-    
-//     }
-// },
+    },
   methods: {
        logOut(){
            this.$store.dispatch('logout')
         
     }
-  // },watch: {
-  //   '$route': 'logOut'
-  // }
   }}  
 </script>
 <style scoped>
