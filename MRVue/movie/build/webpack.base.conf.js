@@ -41,6 +41,7 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
+      {test:/.(png | jpg | gif | svg)$/, use:['url-loader?limit=8192&name=./[name].[ext]']},
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

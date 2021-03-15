@@ -2,7 +2,7 @@
 import SimilarMovies from '../components/SimilarMovie'
 
 import MovieDetail from "../components/MovieDetail";
-import CommentView from '../components/Comments/CommentView'
+import CommentsCard from '../components/CommentsCard'
 import { mapGetters } from "vuex";
 export default {
   name: "Movie",
@@ -11,7 +11,7 @@ export default {
       
     };
   },
-  components: { MovieDetail,CommentView,SimilarMovies},
+  components: { MovieDetail,CommentsCard,SimilarMovies},
 computed: {
     ...mapGetters([
       'groupedSimilarMovies',
@@ -19,11 +19,14 @@ computed: {
     ...mapGetters([
       'groupedMovieCast'
     ]),
+    movieDetails(){
+      return this.$store.state.movies.movieDetails
+    },
     movieVideos(){
       return this.$store.state.movies.movieVideos
     },
-    movieDetails(){
-      return this.$store.state.movies.movieDetails
+    comments(){
+     return this.$store.state.movies.comments
     }
     
   },
@@ -32,7 +35,8 @@ computed: {
     this.$store.dispatch("getSimilarMovies",this.$route.params.id)
     this.$store.dispatch('getMovieCredits',this.$route.params.id)
     this.$store.dispatch('getMovieVideos',this.$route.params.id)
-    }
+    this.$store.dispatch('getCommentsOfMovie',this.$route.params.id)
+ } 
 
 };
 </script>
@@ -41,12 +45,11 @@ computed: {
    
     <MovieDetail
       :movieDetails="movieDetails"
-    
-      :movieCredits="groupedMovieCast"
-
       :movieVideos="movieVideos"
+      :movieCredits="groupedMovieCast"
    />
-   <CommentView />
-   <SimilarMovies :similarMovies=groupedSimilarMovies />
+   <CommentsCard :comments="comments" />
+
+   <SimilarMovies :similarMovies="groupedSimilarMovies" />
   </div>
   </template>

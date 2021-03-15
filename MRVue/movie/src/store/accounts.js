@@ -1,4 +1,4 @@
-import axios from 'axios'
+
 import AccountService from '../Services/AccountService'
 const user = localStorage.getItem('user');
 const initialState = user

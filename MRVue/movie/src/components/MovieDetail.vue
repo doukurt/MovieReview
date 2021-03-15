@@ -1,6 +1,6 @@
 <template>
   <div class="movieDetail">
-    <div class="card" style="max-width: 1770px;">
+    <div class="card" style="max-width: 1770px">
       <div class="row g-0">
         <div class="col-md-3">
           <img
@@ -10,9 +10,12 @@
         </div>
         <div class="col-md-9">
           <div class="card-body">
-            <h5 class="card-title text-center" style="color:#f42f42">
-              <strong>{{ movieDetails.title }}</strong>
-            </h5>
+            <div class="addFavorite">
+              <span class="card-title" style="color: #f42f42">
+                <strong>{{ movieDetails.title }}</strong>
+                
+              </span><button class="Favorites" v-on:click="postFavorite" ><Favorite /></button>
+            </div>
             <p class="card-text">{{ movieDetails.overview }}</p>
 
             <div v-if="!trailer" class="Offical">
@@ -21,16 +24,14 @@
               >
             </div>
             <div v-if="trailer" class="Trailer">
-               <iframe
+              <iframe
                 width="500"
                 height="315"
-                :src="
-                  'https://www.youtube.com/embed/' + movieVideos
-                "
+                :src="'https://www.youtube.com/embed/' + movieVideos"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
-              ></iframe> 
+              ></iframe>
             </div>
             <div class="category">
               <p><strong>Genres </strong></p>
@@ -42,28 +43,32 @@
             <div class="revenue">
               <p><Revenue /></p>
               <p><Equals /></p>
-              <strong  v-if="!movieDetails.revenue==0" style="color:#85bb65">${{ movieDetails.revenue }}</strong>
+              <strong v-if="!movieDetails.revenue == 0" style="color: #85bb65"
+                >${{ movieDetails.revenue }}</strong
+              >
             </div>
             <div class="cast">
               <p><Cast /></p>
               <div class="casts" v-for="cast in movieCredits" :key="cast.id">
-                <img 
-            :src="'https://image.tmdb.org/t/p/w300'+cast.profile_path"
-            :alt="cast.profile_path"
-          />
-           <p>{{cast.character}}</p>
-          
-           <p>{{cast.original_name}}</p>
+                <img
+                  :src="'https://image.tmdb.org/t/p/w300' + cast.profile_path"
+                  :alt="cast.profile_path"
+                />
+                <p>{{ cast.character }}</p>
+
+                <p>{{ cast.original_name }}</p>
               </div>
             </div>
             <div class="production">
-              <p style="color:#f42f42"><strong>Production Companies</strong></p>
+              <p style="color: #f42f42">
+                <strong>Production Companies</strong>
+              </p>
 
               <div class="companiesImg">
                 <img
                   :src="
                     'https://image.tmdb.org/t/p/w300' +
-                      movieDetails.production_companies[0].logo_path
+                    movieDetails.production_companies[0].logo_path
                   "
                   :alt="movieDetails.production_companies[0].logo_path"
                 />
@@ -86,51 +91,75 @@ import PlayIcon from "../components/icons/PlayIcon";
 import Revenue from "../components/icons/Revenue";
 import Equals from "../components/icons/Equals";
 import Cast from "../components/icons/Cast";
+import Favorite from '../components/icons/Favorite'
+import axios from 'axios'
 export default {
   data() {
     return {
-      trailer: false
+      trailer: false,
     };
   },
-
+  computed:{
+   currentUser(){
+   return JSON.parse( this.$store.state.accounts.initialState.user)
+   }
+  },
   methods: {
     playTrailer() {
       this.trailer = !this.trailer;
+    },
+    postFavorite(){
+      
+      return axios.post(`http://localhost:3000/movie`,{
+        movieId:this.movieDetails.id,
+        username:this.currentUser.data.username})
     }
   },
-  props: ["movieDetails", "movieCredits", "movieVideos"],
-  components: { PlayIcon, Revenue, Equals, Cast }
+  props: ["movieDetails", "movieVideos", "movieCredits"],
+  components: { PlayIcon, Revenue, Equals, Cast,Favorite },
 };
 </script>
 <style scoped>
-.cast{
-    display:flex;  
-   
+.Favorites{
+  border:none;
+  background-color: white;
 }
-.col-md-3>img{
-object-fit: cover;
+
+
+.addFavorite{
+  display: flex;
 }
-.cast>p{
-    margin-right:20px;
-    }
-.casts>img{
-    
-    width: 20%;
-    object-fit: cover;
-    border-radius:10%;
+.addFavorite>span {
+  flex-grow:1;
+  font-size: 20px;
+  text-align: center;
+}
+
+.cast {
+  display: flex;
+}
+.col-md-3 > img {
+  object-fit: cover;
+}
+.cast > p {
+  margin-right: 20px;
+}
+.casts > img {
+  width: 20%;
+  object-fit: cover;
+  border-radius: 10%;
 }
 
 .card {
   width: 100%;
   height: 100%;
-  padding:15px;
-  background: rgba( 255, 255, 255, 1 );
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-backdrop-filter: blur( 20px );
--webkit-backdrop-filter: blur( 20px );
-border-radius: 10px;
-border: 1px solid rgba( 255, 255, 255, 0.18 );
-
+  padding: 15px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 /* .card-body{
     width: 100%;

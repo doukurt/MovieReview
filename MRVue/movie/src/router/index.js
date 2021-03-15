@@ -5,7 +5,6 @@ import LoginPage from '../pages/LoginPage'
 import HomePage from '../pages/HomePage'
 import Movie from '../pages/Movie'
 import ProfilePage from '../pages/ProfilePage'
-
 Vue.use(Router)
 
 export default new Router({
@@ -31,10 +30,11 @@ export default new Router({
    component:Movie
 },
 {
-  path:'/profile',
-  name:ProfilePage,
+  path:'/user/:username',
+  name:'Profile',
   component:ProfilePage
-}
+},
+
     
   ]
  ,

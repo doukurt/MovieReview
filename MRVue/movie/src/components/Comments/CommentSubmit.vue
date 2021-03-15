@@ -1,60 +1,79 @@
 <template>
-    <div>
-    <div class="card">
-    <div class="card-body">
-    <div class=row>
-        <img src="../../assets/bg-01.jpg" alt="#" width="50" height="50" class="rounded-circle"> 
-          </div>
-    <div class="col">
-     <input type="text">
+  <div>
+    <form>
       
-    </div>
- <div class="row">
-     <button>Comment</button>
- </div>
-    </div>
-    </div>
-    </div>
+      <fieldset>
+        <div class="row">
+          <div class="col-sm-3 col-lg-2 hidden-xs">
+          <DefaultImage :profileImage=currentUser.data.image />
+          </div>
+          <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+            <textarea
+              class="form-control"
+              id="message"
+              placeholder="Your comment"
+              v-model="comment"
+              required=""
+            ></textarea>
+            <div class="text-right">
+              <button type="submit" @click="postComment" class="btn btn-normal">Submit</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </template>
+<script>
+import DefaultImage from '../DefaultImage'
+import axios from "axios";
+export default {
+  data() {
+    return {
+      comment: ""
+    };
+  },components:{DefaultImage},
+  computed: {
+    currentUser() {
+      return JSON.parse(this.$store.state.accounts.initialState.user);
+    }
+  },
+
+  methods: {
+    postComment() {
+      return axios.post(
+        `http://localhost:3000/movie/${this.$route.params.id}`,
+        { comment: this.comment, user: this.currentUser.data.username }
+      );
+    }
+  }
+};
+</script>
 <style scoped>
-.card-body>.row{
-    margin:5px;
-    
+fieldset{
+    margin-top:30px;
 }
-.card-body>.col{
-    margin:5px;
-}
-.card-body{
-    display: flex;
-  
-}
-.card{
-    border: none;
-    border-radius:15px;
-    background-color:whitesmoke;
-}
-input:focus{
-    outline: none;
-}
-button{
+.btn{
+    margin-top:10px;
     border:1px solid #f42f42;
     border-radius:15px;
     background-color: white;
-    color:#f42f42;
     font-weight: 700;
-    padding:8px;
+    color:#f42f42;
 }
-button:hover{
-    color:green
+textarea{
+    border:none;
+    border-radius:15px;
+    background-color: whitesmoke;
+    resize: none;
 }
-input{
-background: rgba( 255, 255, 255, 0.5 );
-box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-backdrop-filter: blur( 4px );
--webkit-backdrop-filter: blur( 4px );
-border-radius: 10px;
-width: 100%;
-height: 100%;
-border: 1px solid rgba( 255, 255, 255, 0.18 );
+textarea:focus{
+    outline: none;
+}
+
+@media screen {
+  .profile {
+    min-width: 379px;
+  }
 }
 </style>

@@ -32,6 +32,10 @@ export default {
   margin-top:100px;
   background-color: #f42f42;
   border-radius: 0px 50px 50px 0px;
+ 
+
+
+
 }
 h4{
     padding-top: 10px;
