@@ -66,18 +66,19 @@
                   <router-link v-if="this.ownerLoggedIn"  to="/">
                   <button
                     type="button"
-                    class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"
-
+                    class="btn  mt-3 btn-rounded waves-effect w-md waves-light"
+                    id="deleteBtn"
                     @click="deleteUser"
                   >
-                    Delete Profile
+                  X Delete Profile
                   </button></router-link>
-                  <button
+                  <router-link v-if="this.ownerLoggedIn" :to="'/user/addMovie/'+user.username"
                     type="button"
-                    class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"
+                    id="addMovie"
+                    class="btn  mt-3 btn-rounded waves-effect w-md waves-light"
                   >
-                    Add Movies
-                  </button>
+                   Add Movie
+                  </router-link>
                   <div class="mt-4">
                     <div class="row">
                       <div class="col-4">
@@ -88,14 +89,14 @@
                       </div>
                       <div class="col-4">
                         <div class="mt-3">
-                          <h4>6952</h4>
-                          <p class="mb-0 text-muted">Income amounts</p>
+                          <h4>{{user.comments.length}}</h4>
+                          <p class="mb-0 text-muted">My Comments</p>
                         </div>
                       </div>
                       <div class="col-4">
-                        <div class="mt-3">
-                          <h4>1125</h4>
-                          <p class="mb-0 text-muted">Total Transactions</p>
+                        <div id="myMovies">
+                          <h4>{{myMovies.movies.length}}</h4>
+                          <p class="mb-0 text-muted"><MyMovies :myMovies="myMovies.movies" :ownerLoggedIn="this.ownerLoggedIn" /></p>
                         </div>
                       </div>
                     </div>
@@ -113,10 +114,22 @@
 import DefaultImage from './DefaultImage'
 import Share from './icons/Share'
 import axios from "axios";
+import AddMovie from './AddMovie'
+import MyMovies from './MyMovies'
 export default {
   name: "ProfileDetail",
   props: ["user","ownerLoggedIn"],
-  components:{DefaultImage,Share},
+  components:{DefaultImage,Share,AddMovie,MyMovies},
+  computed:{
+   myMovies(){
+     return this.$store.state.users.myMovies
+   }
+  },
+
+  created(){
+  console.log(this.myMovies)
+  this.$store.dispatch('getMyMovies',this.$route.params.username)
+  },
   methods: {
   handleImage(e) {
       const selectedImage = e.target.files[0]; // get first file
@@ -152,6 +165,14 @@ export default {
 }
 </script>
 <style scoped>
+#addMovie{
+  background-color: #f42f42;
+  color:white;
+  font-weight: 700;
+}
+#myMovies{
+  margin-top:12px;
+}
 #upload{
   opacity:0;
   z-index: 1;
@@ -165,6 +186,13 @@ body {
   border-radius: 3px;
   margin-bottom: 30px;
   background-color: #fff;
+}
+#deleteBtn{
+  border:none;
+  background-color: #f42f42;
+  color:white;
+  font-weight: 700;
+  border-radius: 15px;
 }
 .social-links li a {
   border-radius: 50%;

@@ -12,9 +12,10 @@
           <div class="card-body">
             <div class="addFavorite">
               <span class="card-title" style="color: #f42f42">
-                <strong>{{ movieDetails.title }}</strong>
-                
-              </span><button class="Favorites" v-on:click="postFavorite" ><Favorite /></button>
+                <strong>{{ movieDetails.title }}</strong> </span
+              ><button class="Favorites" v-on:click="postFavorite">
+                <Favorite />
+              </button>
             </div>
             <p class="card-text">{{ movieDetails.overview }}</p>
 
@@ -91,46 +92,45 @@ import PlayIcon from "../components/icons/PlayIcon";
 import Revenue from "../components/icons/Revenue";
 import Equals from "../components/icons/Equals";
 import Cast from "../components/icons/Cast";
-import Favorite from '../components/icons/Favorite'
-import axios from 'axios'
+import Favorite from "../components/icons/Favorite";
+import axios from "axios";
 export default {
   data() {
     return {
       trailer: false,
     };
   },
-  computed:{
-   currentUser(){
-   return JSON.parse( this.$store.state.accounts.initialState.user)
-   }
+  computed: {
+    currentUser() {
+      return JSON.parse(this.$store.state.accounts.initialState.user);
+    },
   },
   methods: {
     playTrailer() {
       this.trailer = !this.trailer;
     },
-    postFavorite(){
-      
-      return axios.post(`http://localhost:3000/movie`,{
-        movieId:this.movieDetails.id,
-        username:this.currentUser.data.username})
-    }
+    postFavorite() {
+      return axios.post(`http://localhost:3000/movie`, {
+        movieId: this.movieDetails.id,
+        username: this.currentUser.data.username,
+      });
+    },
   },
   props: ["movieDetails", "movieVideos", "movieCredits"],
-  components: { PlayIcon, Revenue, Equals, Cast,Favorite },
+  components: { PlayIcon, Revenue, Equals, Cast, Favorite },
 };
 </script>
 <style scoped>
-.Favorites{
-  border:none;
+.Favorites {
+  border: none;
   background-color: white;
 }
 
-
-.addFavorite{
+.addFavorite {
   display: flex;
 }
-.addFavorite>span {
-  flex-grow:1;
+.addFavorite > span {
+  flex-grow: 1;
   font-size: 20px;
   text-align: center;
 }

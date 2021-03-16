@@ -16,12 +16,12 @@ require("./mongodb-connection")
 const userRouter=require('./routers/user')
 const movieRouter=require('./routers/movie')
 const authRouter=require('./routers/auth')
-const commentRouter=require('./routers/comment')
+
 
 app.use('/user',userRouter);
 app.use('/movie',movieRouter);
 app.use('/',authRouter)
-app.use('/comments',commentRouter)
+
 
 
 //  const addMovies=async(req,res,next)=>{
